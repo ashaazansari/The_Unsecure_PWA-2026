@@ -31,7 +31,6 @@ def retrieveUsers(username, password):
         with open("visitor_log.txt", "w") as file:
             file.write(str(number))
         # Simulate response time of heavy app for testing purposes
-        time.sleep(random.randint(80, 90) / 1000)
         if cur.fetchone() == None:
             con.close()
             return False
