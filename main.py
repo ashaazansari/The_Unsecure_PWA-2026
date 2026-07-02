@@ -2,13 +2,15 @@ from flask import Flask
 from flask import render_template
 from flask import request
 from flask import redirect
-from flask_cors import CORS
+from flask import session
 import user_management as dbHandler
+import secrets
 
 # Code snippet for logging a message
 # app.logger.critical("message")
 
 app = Flask(__name__)
+app.secret_key = secrets.token_hex(16)
 # Enable CORS to allow cross-origin requests (needed for CSRF demo in Codespaces)
 #CORS(app)
 
@@ -65,6 +67,8 @@ def home():
         password = request.form["password"]
         isLoggedIn = dbHandler.retrieveUsers(username, password)
         if isLoggedIn:
+            session.clear()  
+            session["username"] = username
             dbHandler.listFeedback()
             return render_template("/success.html", value=username, state=isLoggedIn)
         else:
@@ -77,3 +81,4 @@ if __name__ == "__main__":
     app.config["TEMPLATES_AUTO_RELOAD"] = True
     app.config["SEND_FILE_MAX_AGE_DEFAULT"] = 0
     app.run(debug=False, host="127.0.0.1", port=5000)
+ 
