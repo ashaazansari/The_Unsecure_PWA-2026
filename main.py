@@ -17,6 +17,9 @@ app.secret_key = secrets.token_hex(16)
 
 @app.route("/success.html", methods=["POST", "GET", "PUT", "PATCH", "DELETE"])
 def addFeedback():
+    if "username" not in session:
+        return redirect("/")
+
     if request.method == "GET" and request.args.get("url"):
         url = request.args.get("url", "")
         if url.startswith("/") and not url.startswith("//"):
