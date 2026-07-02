@@ -1,3 +1,4 @@
+import html
 import sqlite3 as sql
 import time
 import random
@@ -55,6 +56,6 @@ def listFeedback():
     f = open("templates/partials/success_feedback.html", "w")
     for row in data:
         f.write("<p>\n")
-        f.write(f"{row[1]}\n")
+        f.write(f"{html.escape(row[1])}\n")
         f.write("</p>\n")
     f.close()
