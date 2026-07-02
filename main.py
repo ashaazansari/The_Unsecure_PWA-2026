@@ -17,7 +17,9 @@ CORS(app)
 def addFeedback():
     if request.method == "GET" and request.args.get("url"):
         url = request.args.get("url", "")
-        return redirect(url, code=302)
+        if url.startswith("/") and not url.startswith("//"):
+            return redirect(url, code=302)
+        return redirect("/")
     if request.method == "POST":
         feedback = request.form["feedback"]
         dbHandler.insertFeedback(feedback)
@@ -32,7 +34,9 @@ def addFeedback():
 def signup():
     if request.method == "GET" and request.args.get("url"):
         url = request.args.get("url", "")
-        return redirect(url, code=302)
+        if url.startswith("/") and not url.startswith("//"):
+            return redirect(url, code=302)
+        return redirect("/")
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
@@ -49,7 +53,9 @@ def home():
     # Simple Dynamic menu
     if request.method == "GET" and request.args.get("url"):
         url = request.args.get("url", "")
-        return redirect(url, code=302)
+        if url.startswith("/") and not url.startswith("//"):
+            return redirect(url, code=302)
+        return redirect("/")
     # Pass message to front end
     elif request.method == "GET":
         msg = request.args.get("msg", "")
